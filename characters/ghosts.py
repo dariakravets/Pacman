@@ -11,9 +11,6 @@ class GreedyGhost:
         self.pacman_position = pacman_position
 
     def find_starting_position(self):
-        # Implement your logic to find a valid starting position for the ghost
-        # This may involve searching for an open tile in the maze
-        # For example, you can use random starting positions for simplicity
         while True:
             x = random.randint(0, len(self.maze[0]) - 1)
             y = random.randint(0, len(self.maze) - 1)
@@ -21,11 +18,9 @@ class GreedyGhost:
                 return x * 60, y * 60
 
     def move(self):
-        # Implement the greedy algorithm to move the ghost toward Pac-Man
         x, y = self.position
         px, py = self.pacman_position
 
-        # Calculate the horizontal and vertical differences between ghost and Pac-Man
         dx = px - x
         dy = py - y
 
@@ -43,7 +38,6 @@ class GreedyGhost:
         return self.position
 
     def is_valid_move(self, x, y):
-        # Check if the move is valid (within the maze boundaries and not hitting a wall)
         row, col = y // 60, x // 60
         return 0 <= row < len(self.maze) and 0 <= col < len(self.maze[0]) and self.maze[row][col] != "#"
 
@@ -52,29 +46,25 @@ class AStarGhost:
     def __init__(self, maze, pacman_position, current_position):
         self.maze = maze
         self.pacman_position = pacman_position
-        self.current_position = current_position  # Initialize the ghost's position
+        self.current_position = current_position
 
     def move(self):
-        # Find the path from the current position to Pac-Man using A* algorithm
         path = self.astar()
 
         if path:
-            # The ghost's next position is the next step on the path
             next_position = path[0]
             self.current_position = next_position
-        # If no path is found, the ghost stays in the current position
 
     def astar(self):
         def heuristic(position):
-            # Calculate the Manhattan distance as the heuristic function
             return abs(position[0] - self.pacman_position[0]) + abs(position[1] - self.pacman_position[1])
 
         def is_valid(position):
             x, y = position
-            return 0 <= x < len(self.maze[0]) and 0 <= y < len(self.maze) and self.maze[y][x] == ' '  # Ensure ' ' is valid
+            return 0 <= x < len(self.maze[0]) and 0 <= y < len(self.maze) and self.maze[y][x] == ' '
 
-        open_set = []  # Priority queue for open set
-        heapq.heappush(open_set, (0, self.current_position))  # Start with the current position
+        open_set = []
+        heapq.heappush(open_set, (0, self.current_position))
         came_from = {}
         g_score = {self.current_position: 0}
 

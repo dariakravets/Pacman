@@ -8,7 +8,6 @@ class Pacman:
         self.rect.topleft = (x, y)
         self.speed = 6
 
-        # Store maze-related information
         self.maze_width = maze_width
         self.maze_height = maze_height
         self.maze_layout = maze_layout
@@ -23,11 +22,9 @@ class Pacman:
         new_x = self.rect.x + dx * self.speed
         new_y = self.rect.y + dy * self.speed
 
-        # Calculate the grid position
         grid_x = new_x // 60
         grid_y = new_y // 60
 
-        # Check if the new position is within the maze boundaries
         if (0 <= grid_x < self.maze_width) and (0 <= grid_y < self.maze_height):
             # Check if the new position is a path (not a wall)
             if self.maze_layout[grid_y][grid_x] == '.':
